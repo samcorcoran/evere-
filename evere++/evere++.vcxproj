@@ -116,11 +116,13 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Point.cpp" />
+    <ClCompile Include="SpatialNode.cpp" />
     <ClCompile Include="Triangle.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Point.h" />
+    <ClInclude Include="SpatialNode.h" />
     <ClInclude Include="Triangle.h" />
     <ClInclude Include="Hasher.h" />
     <ClInclude Include="GeometryUtils.h" />
