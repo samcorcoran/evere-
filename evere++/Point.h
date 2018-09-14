@@ -8,14 +8,18 @@ using namespace std;
 class Point
 {
 public:
+	Point(float x, float y, float z);
+
+	Point(const std::shared_ptr<Point> & p1, const std::shared_ptr<Point> & p2, float t);
+
+	string to_string();
+
+private:
 	int id;
 	float x;
 	float y;
 	float z;
 
-	Point(float x, float y, float z);
-
-	Point(const std::shared_ptr<Point> & p1, const std::shared_ptr<Point> & p2, float t);
 
 	void increment_counter();
 
@@ -23,8 +27,7 @@ public:
 
 	void normalize();
 
-	string to_string();
 
-private:
 	static size_t point_counter;
+
 };
