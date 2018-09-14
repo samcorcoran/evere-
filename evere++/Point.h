@@ -5,6 +5,11 @@
 
 using namespace std;
 
+struct GeographicLocation {
+	float longitude;
+	float latitude;
+};
+
 class Point
 {
 public:
@@ -20,6 +25,7 @@ private:
 	float y;
 	float z;
 
+	GeographicLocation geographicLocation;
 
 	void increment_counter();
 
@@ -27,6 +33,7 @@ private:
 
 	void normalize();
 
+	void set_geographic_location();
 
 	static size_t point_counter;
 

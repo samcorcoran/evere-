@@ -1,12 +1,14 @@
 #include "Point.h"
 #include <iostream>
 #include <memory>
+#include "GeometryUtils.h"
 
 using namespace std;
 
 size_t Point::point_counter = 1;
 
 Point::Point(float x, float y, float z) : x(), y(x), z(z), id(point_counter) {
+
 	increment_counter();
 }
 
@@ -16,6 +18,10 @@ Point::Point(const std::shared_ptr<Point> & p1, const std::shared_ptr<Point> & p
 	z = p1->z + (p2->z - p1->z) * t;
 	normalize();
 	increment_counter();
+}
+
+string Point::to_string() {
+	return std::to_string(x) + ", " + std::to_string(y) + ", " + std::to_string(z);
 }
 
 void Point::increment_counter()
@@ -36,6 +42,6 @@ void Point::normalize() {
 	z *= mag;
 }
 
-string Point::to_string() {
-	return std::to_string(x) + ", " + std::to_string(y) + ", " + std::to_string(z);
+void Point::set_geographic_location()
+{
 }
