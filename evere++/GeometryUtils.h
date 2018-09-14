@@ -93,8 +93,6 @@ void subdivide_triangles(vector<unique_ptr<Triangle>>& triangles, int subdivisio
 	auto duration_s = std::chrono::duration_cast<std::chrono::seconds>(t2 - t1).count();
 	auto duration_ms = std::chrono::duration_cast<std::chrono::milliseconds>(t2 - t1).count();
 	cout << "Subdivision took: " << duration_s << "s (or " << duration_ms << "ms)\n";
-	
-
 }
 
 void print_triangles(vector<unique_ptr<Triangle>>& triangles)
@@ -125,3 +123,6 @@ void create_octahedron_triangles(vector<unique_ptr<Triangle>>& triangles) {
 	triangles.push_back(make_unique<Triangle>(p3, p2, p6));
 }
 
+float radians_to_degrees(float r) {
+	return r * (180.0 / 3.141592653589793238463);
+}
