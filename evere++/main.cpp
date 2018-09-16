@@ -17,8 +17,8 @@ int main(int argc, char* argv[])
 		subdivisions = std::stoi(argv[1]);
 	}
 	vector<unique_ptr<Triangle>> triangles;
-	create_octahedron_triangles(triangles);
-	subdivide_triangles(triangles, subdivisions);
+	GeometryUtils::create_octahedron_triangles(triangles);
+	GeometryUtils::subdivide_triangles(triangles, subdivisions);
 	cout << "End of main, total triangles: " << triangles.size();
 	//print_triangles(triangles);
 

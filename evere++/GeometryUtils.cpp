@@ -11,7 +11,7 @@
 
 using namespace std;
 
-size_t get_t_point_hash(Point const * const p1, Point const * const p2, float const t)
+size_t GeometryUtils::get_t_point_hash(Point const * const p1, Point const * const p2, float const t)
 {
 	size_t seed = 0;
 	hash_combine(seed, p1);
@@ -21,7 +21,7 @@ size_t get_t_point_hash(Point const * const p1, Point const * const p2, float co
 	return seed;
 }
 
-void subdivide_triangle_into_four(Triangle const &  triangle, vector<unique_ptr<Triangle>>& new_triangles, map<size_t, shared_ptr<Point>> &known_subdivision_points)
+void GeometryUtils::subdivide_triangle_into_four(Triangle const &  triangle, vector<unique_ptr<Triangle>>& new_triangles, map<size_t, shared_ptr<Point>> &known_subdivision_points)
 {
 	shared_ptr<Point> p4;
 	size_t p4_hash = get_t_point_hash(triangle.p1.get(), triangle.p2.get(), 0.5f);
@@ -77,7 +77,7 @@ void subdivide_triangle_into_four(Triangle const &  triangle, vector<unique_ptr<
 	new_triangles.push_back(make_unique<Triangle>(p4, triangle.p2, p6));
 }
 
-void subdivide_triangles(vector<unique_ptr<Triangle>>& triangles, int const subdivisions)
+void GeometryUtils::subdivide_triangles(vector<unique_ptr<Triangle>>& triangles, int const subdivisions)
 {
 	// Track function duration
 	chrono::high_resolution_clock::time_point t1 = chrono::high_resolution_clock::now();
@@ -104,7 +104,7 @@ void subdivide_triangles(vector<unique_ptr<Triangle>>& triangles, int const subd
 	cout << "Subdivision took: " << duration_s << "s (or " << duration_ms << "ms)\n";
 }
 
-void print_triangles(vector<unique_ptr<Triangle>> const & triangles)
+void GeometryUtils::print_triangles(vector<unique_ptr<Triangle>> const & triangles)
 {
 	cout << "Printing triangles... \nTotal triangles: " << to_string(triangles.size()) << '\n';
 	for (auto const& next_triangle : triangles)
@@ -114,7 +114,7 @@ void print_triangles(vector<unique_ptr<Triangle>> const & triangles)
 	cout << "End of triangles";
 }
 
-void create_octahedron_triangles(vector<unique_ptr<Triangle>>& triangles) {
+void GeometryUtils::create_octahedron_triangles(vector<unique_ptr<Triangle>>& triangles) {
 	shared_ptr<Point> p1 = make_shared<Point>(0.0f, 1.0f, 0.0f);
 	shared_ptr<Point> p2 = make_shared<Point>(-1.0f, 0.0f, 0.0f);
 	shared_ptr<Point> p3 = make_shared<Point>(0.0f, 0.0f, 1.0f);
@@ -132,6 +132,6 @@ void create_octahedron_triangles(vector<unique_ptr<Triangle>>& triangles) {
 	triangles.push_back(make_unique<Triangle>(p3, p2, p6));
 }
 
-constexpr float radians_to_degrees(float r) {
+float GeometryUtils::radians_to_degrees(float const r) {
 	return r * (180.0 / 3.141592653589793238463);
 }

@@ -8,16 +8,19 @@
 #include "Point.h"
 #include "Triangle.h"
 
-std::size_t get_t_point_hash(Point const * const p1, Point const * const p2, float const t);
+namespace GeometryUtils {
 
-void subdivide_triangle_into_four(Triangle const &  triangle, std::vector<std::unique_ptr<Triangle>>& new_triangles, std::map<std::size_t, std::shared_ptr<Point>> &known_subdivision_points);
+	std::size_t get_t_point_hash(Point const * const p1, Point const * const p2, float const t);
 
-void subdivide_triangles(std::vector<std::unique_ptr<Triangle>>& triangles, int const subdivisions);
+	void subdivide_triangle_into_four(Triangle const &  triangle, std::vector<std::unique_ptr<Triangle>>& new_triangles, std::map<std::size_t, std::shared_ptr<Point>> &known_subdivision_points);
 
-void print_triangles(std::vector<std::unique_ptr<Triangle>> const & triangles);
+	void subdivide_triangles(std::vector<std::unique_ptr<Triangle>>& triangles, int const subdivisions);
 
-void create_octahedron_triangles(std::vector<std::unique_ptr<Triangle>>& triangles);
+	void print_triangles(std::vector<std::unique_ptr<Triangle>> const & triangles);
 
-constexpr float radians_to_degrees(float r);
+	void create_octahedron_triangles(std::vector<std::unique_ptr<Triangle>>& triangles);
+
+	float radians_to_degrees(float const r);
+}
 
 #endif
