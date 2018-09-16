@@ -3,7 +3,6 @@
 #include <memory>
 #include <map>
 #include "Triangle.h"
-#include "Hasher.h"
 #include "GeometryUtils.h"
 
 using namespace std;
