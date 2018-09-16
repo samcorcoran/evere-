@@ -1,4 +1,6 @@
-#pragma once
+#ifndef POINT_H
+#define POINT_H
+
 #include <math.h>
 #include <memory>
 #include <string>
@@ -38,3 +40,5 @@ private:
 	static size_t point_counter;
 
 };
+
+#endif

@@ -1,4 +1,5 @@
-#pragma once
+#ifndef TRIANGLE_H
+#define TRIANGLE_H
 
 #include <math.h>
 #include <memory>
@@ -21,3 +22,5 @@ public:
 private:
 	static size_t triangle_counter;
 };
+
+#endif

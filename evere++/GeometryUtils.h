@@ -1,3 +1,6 @@
+#ifndef GEOMETRYUTILS_H
+#define GEOMETRYUTILS_H
+
 #include "Triangle.h"
 #include "Point.h"
 #include <chrono>
@@ -126,3 +129,5 @@ void create_octahedron_triangles(vector<unique_ptr<Triangle>>& triangles) {
 float radians_to_degrees(float r) {
 	return r * (180.0 / 3.141592653589793238463);
 }
+
+#endif

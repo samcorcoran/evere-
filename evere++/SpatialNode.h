@@ -1,4 +1,6 @@
-#pragma once
+#ifndef SPATIALNODE_H
+#define SPATIALNODE_H
+
 #include "Point.h"
 
 class SpatialNode
@@ -9,3 +11,5 @@ public:
 private:
 	shared_ptr<Point> location;
 };
+
+#endif
