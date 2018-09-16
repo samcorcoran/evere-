@@ -3,9 +3,12 @@
 
 #include "Triangle.h"
 #include "Point.h"
+#include "Hasher.h"
 #include <chrono>
 
-size_t get_t_point_hash(const shared_ptr<Point>& p1, const shared_ptr<Point>& p2, float t)
+using namespace std;
+
+size_t get_t_point_hash(Point const * const p1, Point const * const p2, float const t)
 {
 	std::size_t seed = 0;
 	hash_combine(seed, p1);
@@ -15,10 +18,10 @@ size_t get_t_point_hash(const shared_ptr<Point>& p1, const shared_ptr<Point>& p2
 	return seed;
 }
 
-void subdivide_triangle_into_four(unique_ptr<Triangle> const &triangle, vector<unique_ptr<Triangle>>& new_triangles, map<size_t, shared_ptr<Point>> &known_subdivision_points)
+void subdivide_triangle_into_four(Triangle const &  triangle, vector<unique_ptr<Triangle>>& new_triangles, map<size_t, shared_ptr<Point>> &known_subdivision_points)
 {
 	shared_ptr<Point> p4;
-	size_t p4_hash = get_t_point_hash(triangle->p1, triangle->p2, 0.5f);
+	size_t p4_hash = get_t_point_hash(triangle.p1.get(), triangle.p2.get(), 0.5f);
 	auto it = known_subdivision_points.find(p4_hash);
 	if (it != known_subdivision_points.end())
 	{
@@ -26,15 +29,15 @@ void subdivide_triangle_into_four(unique_ptr<Triangle> const &triangle, vector<u
 	}
 	else
 	{
-		p4 = make_shared<Point>(triangle->p1, triangle->p2, 0.5f);
+		p4 = make_shared<Point>(*triangle.p1, *triangle.p2, 0.5f);
 		known_subdivision_points[p4_hash] = p4;
 		// Hash of the points the other way round
-		size_t p4_hash_alternative = get_t_point_hash(triangle->p2, triangle->p1, 0.5f);
+		size_t p4_hash_alternative = get_t_point_hash(triangle.p2.get(), triangle.p1.get(), 0.5f);
 		known_subdivision_points[p4_hash_alternative] = p4;
 	}
 
 	shared_ptr<Point> p5;
-	size_t p5_hash = get_t_point_hash(triangle->p1, triangle->p3, 0.5f);
+	size_t p5_hash = get_t_point_hash(triangle.p1.get(), triangle.p3.get(), 0.5f);
 	it = known_subdivision_points.find(p5_hash);
 	if (it != known_subdivision_points.end())
 	{
@@ -42,15 +45,15 @@ void subdivide_triangle_into_four(unique_ptr<Triangle> const &triangle, vector<u
 	}
 	else
 	{
-		p5 = make_shared<Point>(triangle->p1, triangle->p3, 0.5f);
+		p5 = make_shared<Point>(*triangle.p1, *triangle.p3, 0.5f);
 		known_subdivision_points[p5_hash] = p5;
 		// Hash of the points the other way round
-		size_t p5_hash_alternative = get_t_point_hash(triangle->p3, triangle->p1, 0.5f);
+		size_t p5_hash_alternative = get_t_point_hash(triangle.p3.get(), triangle.p1.get(), 0.5f);
 		known_subdivision_points[p5_hash_alternative] = p5;
 	}
 
 	shared_ptr<Point> p6;
-	size_t p6_hash = get_t_point_hash(triangle->p1, triangle->p3, 0.5f);
+	size_t p6_hash = get_t_point_hash(triangle.p1.get(), triangle.p3.get(), 0.5f);
 	it = known_subdivision_points.find(p6_hash);
 	if (it != known_subdivision_points.end())
 	{
@@ -58,20 +61,20 @@ void subdivide_triangle_into_four(unique_ptr<Triangle> const &triangle, vector<u
 	}
 	else
 	{
-		p6 = make_shared<Point>(triangle->p2, triangle->p3, 0.5f);
+		p6 = make_shared<Point>(*triangle.p2, *triangle.p3, 0.5f);
 		known_subdivision_points[p6_hash] = p6;
 		// Hash of the points the other way round
-		size_t p6_hash_alternative = get_t_point_hash(triangle->p3, triangle->p2, 0.5f);
+		size_t p6_hash_alternative = get_t_point_hash(triangle.p3.get(), triangle.p2.get(), 0.5f);
 		known_subdivision_points[p6_hash_alternative] = p6;
 	}
 
-	new_triangles.push_back(make_unique<Triangle>(triangle->p1, p4, p5));
-	new_triangles.push_back(make_unique<Triangle>(p5, p6, triangle->p3));
+	new_triangles.push_back(make_unique<Triangle>(triangle.p1, p4, p5));
+	new_triangles.push_back(make_unique<Triangle>(p5, p6, triangle.p3));
 	new_triangles.push_back(make_unique<Triangle>(p5, p4, p6));
-	new_triangles.push_back(make_unique<Triangle>(p4, triangle->p2, p6));
+	new_triangles.push_back(make_unique<Triangle>(p4, triangle.p2, p6));
 }
 
-void subdivide_triangles(vector<unique_ptr<Triangle>>& triangles, int subdivisions)
+void subdivide_triangles(vector<unique_ptr<Triangle>>& triangles, int const subdivisions)
 {
 	// Track function duration
 	std::chrono::high_resolution_clock::time_point t1 = std::chrono::high_resolution_clock::now();
@@ -84,7 +87,7 @@ void subdivide_triangles(vector<unique_ptr<Triangle>>& triangles, int subdivisio
 		map<size_t, shared_ptr<Point>> known_subdivision_points;
 		for (auto const& next_triangle : triangles)
 		{
-			subdivide_triangle_into_four(next_triangle, new_triangles, known_subdivision_points);
+			subdivide_triangle_into_four(*next_triangle, new_triangles, known_subdivision_points);
 		}
 		std::swap(triangles, new_triangles);
 		new_triangles.clear();
@@ -98,7 +101,7 @@ void subdivide_triangles(vector<unique_ptr<Triangle>>& triangles, int subdivisio
 	cout << "Subdivision took: " << duration_s << "s (or " << duration_ms << "ms)\n";
 }
 
-void print_triangles(vector<unique_ptr<Triangle>>& triangles)
+void print_triangles(vector<unique_ptr<Triangle>> const & triangles)
 {
 	cout << "Printing triangles... \nTotal triangles: " << std::to_string(triangles.size()) << '\n';
 	for (auto const& next_triangle : triangles)
@@ -126,7 +129,7 @@ void create_octahedron_triangles(vector<unique_ptr<Triangle>>& triangles) {
 	triangles.push_back(make_unique<Triangle>(p3, p2, p6));
 }
 
-float radians_to_degrees(float r) {
+constexpr float radians_to_degrees(float r) {
 	return r * (180.0 / 3.141592653589793238463);
 }
 

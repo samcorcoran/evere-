@@ -7,15 +7,15 @@ using namespace std;
 
 size_t Point::point_counter = 1;
 
-Point::Point(float x, float y, float z) : x(), y(x), z(z), id(point_counter) {
+Point::Point(float const x, float const y, float const z) : x(x), y(y), z(z), id(point_counter) {
 
 	increment_counter();
 }
 
-Point::Point(const std::shared_ptr<Point> & p1, const std::shared_ptr<Point> & p2, float t) {
-	x = p1->x + (p2->x - p1->x) * t;
-	y = p1->y + (p2->y - p1->y) * t;
-	z = p1->z + (p2->z - p1->z) * t;
+Point::Point(Point const & p1, Point const & p2, float const t) {
+	x = p1.x + (p2.x - p1.x) * t;
+	y = p1.y + (p2.y - p1.y) * t;
+	z = p1.z + (p2.z - p1.z) * t;
 	normalize();
 	increment_counter();
 }
