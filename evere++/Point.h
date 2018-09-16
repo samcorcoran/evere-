@@ -1,8 +1,6 @@
 #ifndef POINT_H
 #define POINT_H
 
-#include <math.h>
-#include <memory>
 #include <string>
 
 struct GeographicLocation {

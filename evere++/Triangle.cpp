@@ -1,6 +1,11 @@
-#include "Triangle.h"
 #include <iostream>
 #include <memory>
+#include <math.h>
+#include <string>
+
+#include "Triangle.h"
+#include "Point.h"
+
 
 using namespace std;
 

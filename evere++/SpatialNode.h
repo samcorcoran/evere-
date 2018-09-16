@@ -1,8 +1,9 @@
 #ifndef SPATIALNODE_H
 #define SPATIALNODE_H
 
-#include "Point.h"
 #include <memory>
+
+#include "Point.h"
 
 class SpatialNode
 {

@@ -1,9 +1,7 @@
 #ifndef TRIANGLE_H
 #define TRIANGLE_H
 
-#include <math.h>
 #include <memory>
-#include <string>
 #include "Point.h"
 
 class Triangle

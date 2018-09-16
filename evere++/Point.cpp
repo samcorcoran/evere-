@@ -1,6 +1,7 @@
-#include "Point.h"
 #include <iostream>
 #include <memory>
+
+#include "Point.h"
 #include "GeometryUtils.h"
 
 using namespace std;
