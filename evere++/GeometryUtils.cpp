@@ -4,6 +4,7 @@
 #include <iostream>
 #include <memory>
 #include <vector>
+#include <math.h> /* fmod */
 
 #include "Point.h"
 #include "Triangle.h"
@@ -132,6 +133,26 @@ void GeometryUtils::create_octahedron_triangles(vector<unique_ptr<Triangle>>& tr
 	triangles.push_back(make_unique<Triangle>(p3, p2, p6));
 }
 
-float GeometryUtils::radians_to_degrees(float const r) {
-	return r * (180.0 / 3.141592653589793238463);
+float GeometryUtils::degrees(float const radians) {
+	return radians * (180.0 / 3.141592653589793238463);
+}
+
+float GeometryUtils::radians(float const degrees) {
+	return degrees * 3.141592653589793238463 / 180.0;
+}
+
+float GeometryUtils::initial_bearing(Point const & p1, Point const & p2) {
+	auto lat1 = radians(p1.geographic_location.latitude);
+	auto lat2 = radians(p2.geographic_location.latitude);
+
+	auto diff_longitude = radians(p2.geographic_location.longitude - p1.geographic_location.longitude);
+
+	auto x = sin(diff_longitude) * cos(lat2);
+	auto y = cos(lat1) * sin(lat2) - (sin(lat1) * cos(lat2) * cos(diff_longitude));
+
+	auto initial_bearing = atan2(x, y);
+
+	// math.atan2 returns -pi to +pi radians, must convert to compass bearing
+	initial_bearing = degrees(initial_bearing);
+	return fmod((initial_bearing + 360), 360.0);
 }

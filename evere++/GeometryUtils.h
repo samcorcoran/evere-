@@ -20,7 +20,11 @@ namespace GeometryUtils {
 
 	void create_octahedron_triangles(std::vector<std::unique_ptr<Triangle>>& triangles);
 
-	float radians_to_degrees(float const r);
+	float degrees(float const radians);
+
+	float radians(float const degrees);
+
+	float initial_bearing(Point const & p1, Point const & p2);
 }
 
 #endif
