@@ -2,6 +2,8 @@
 #include <iostream>
 #include <memory>
 
+using namespace std;
+
 size_t Triangle::triangle_counter = 1;
 
 Triangle::Triangle(shared_ptr<Point> p1, shared_ptr<Point>p2, shared_ptr<Point>p3) : p1(p1), p2(p2), p3(p3), id(triangle_counter) {

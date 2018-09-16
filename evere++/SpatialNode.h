@@ -2,14 +2,15 @@
 #define SPATIALNODE_H
 
 #include "Point.h"
+#include <memory>
 
 class SpatialNode
 {
-	SpatialNode(shared_ptr<Point> p);
+	SpatialNode(std::shared_ptr<Point> p);
 
 public:
 private:
-	shared_ptr<Point> location;
+	std::shared_ptr<Point> location;
 };
 
 #endif

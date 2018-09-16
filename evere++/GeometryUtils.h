@@ -5,10 +5,10 @@
 #include "Point.h"
 #include "Hasher.h"
 #include <chrono>
+#include <iostream>
+#include <memory>
 
-using namespace std;
-
-size_t get_t_point_hash(Point const * const p1, Point const * const p2, float const t)
+std::size_t get_t_point_hash(Point const * const p1, Point const * const p2, float const t)
 {
 	std::size_t seed = 0;
 	hash_combine(seed, p1);
@@ -18,10 +18,10 @@ size_t get_t_point_hash(Point const * const p1, Point const * const p2, float co
 	return seed;
 }
 
-void subdivide_triangle_into_four(Triangle const &  triangle, vector<unique_ptr<Triangle>>& new_triangles, map<size_t, shared_ptr<Point>> &known_subdivision_points)
+void subdivide_triangle_into_four(Triangle const &  triangle, std::vector<std::unique_ptr<Triangle>>& new_triangles, std::map<std::size_t, std::shared_ptr<Point>> &known_subdivision_points)
 {
-	shared_ptr<Point> p4;
-	size_t p4_hash = get_t_point_hash(triangle.p1.get(), triangle.p2.get(), 0.5f);
+	std::shared_ptr<Point> p4;
+	std::size_t p4_hash = get_t_point_hash(triangle.p1.get(), triangle.p2.get(), 0.5f);
 	auto it = known_subdivision_points.find(p4_hash);
 	if (it != known_subdivision_points.end())
 	{
@@ -29,15 +29,15 @@ void subdivide_triangle_into_four(Triangle const &  triangle, vector<unique_ptr<
 	}
 	else
 	{
-		p4 = make_shared<Point>(*triangle.p1, *triangle.p2, 0.5f);
+		p4 = std::make_shared<Point>(*triangle.p1, *triangle.p2, 0.5f);
 		known_subdivision_points[p4_hash] = p4;
 		// Hash of the points the other way round
-		size_t p4_hash_alternative = get_t_point_hash(triangle.p2.get(), triangle.p1.get(), 0.5f);
+		std::size_t p4_hash_alternative = get_t_point_hash(triangle.p2.get(), triangle.p1.get(), 0.5f);
 		known_subdivision_points[p4_hash_alternative] = p4;
 	}
 
-	shared_ptr<Point> p5;
-	size_t p5_hash = get_t_point_hash(triangle.p1.get(), triangle.p3.get(), 0.5f);
+	std::shared_ptr<Point> p5;
+	std::size_t p5_hash = get_t_point_hash(triangle.p1.get(), triangle.p3.get(), 0.5f);
 	it = known_subdivision_points.find(p5_hash);
 	if (it != known_subdivision_points.end())
 	{
@@ -45,15 +45,15 @@ void subdivide_triangle_into_four(Triangle const &  triangle, vector<unique_ptr<
 	}
 	else
 	{
-		p5 = make_shared<Point>(*triangle.p1, *triangle.p3, 0.5f);
+		p5 = std::make_shared<Point>(*triangle.p1, *triangle.p3, 0.5f);
 		known_subdivision_points[p5_hash] = p5;
 		// Hash of the points the other way round
-		size_t p5_hash_alternative = get_t_point_hash(triangle.p3.get(), triangle.p1.get(), 0.5f);
+		std::size_t p5_hash_alternative = get_t_point_hash(triangle.p3.get(), triangle.p1.get(), 0.5f);
 		known_subdivision_points[p5_hash_alternative] = p5;
 	}
 
-	shared_ptr<Point> p6;
-	size_t p6_hash = get_t_point_hash(triangle.p1.get(), triangle.p3.get(), 0.5f);
+	std::shared_ptr<Point> p6;
+	std::size_t p6_hash = get_t_point_hash(triangle.p1.get(), triangle.p3.get(), 0.5f);
 	it = known_subdivision_points.find(p6_hash);
 	if (it != known_subdivision_points.end())
 	{
@@ -61,30 +61,30 @@ void subdivide_triangle_into_four(Triangle const &  triangle, vector<unique_ptr<
 	}
 	else
 	{
-		p6 = make_shared<Point>(*triangle.p2, *triangle.p3, 0.5f);
+		p6 = std::make_shared<Point>(*triangle.p2, *triangle.p3, 0.5f);
 		known_subdivision_points[p6_hash] = p6;
 		// Hash of the points the other way round
-		size_t p6_hash_alternative = get_t_point_hash(triangle.p3.get(), triangle.p2.get(), 0.5f);
+		std::size_t p6_hash_alternative = get_t_point_hash(triangle.p3.get(), triangle.p2.get(), 0.5f);
 		known_subdivision_points[p6_hash_alternative] = p6;
 	}
 
-	new_triangles.push_back(make_unique<Triangle>(triangle.p1, p4, p5));
-	new_triangles.push_back(make_unique<Triangle>(p5, p6, triangle.p3));
-	new_triangles.push_back(make_unique<Triangle>(p5, p4, p6));
-	new_triangles.push_back(make_unique<Triangle>(p4, triangle.p2, p6));
+	new_triangles.push_back(std::make_unique<Triangle>(triangle.p1, p4, p5));
+	new_triangles.push_back(std::make_unique<Triangle>(p5, p6, triangle.p3));
+	new_triangles.push_back(std::make_unique<Triangle>(p5, p4, p6));
+	new_triangles.push_back(std::make_unique<Triangle>(p4, triangle.p2, p6));
 }
 
-void subdivide_triangles(vector<unique_ptr<Triangle>>& triangles, int const subdivisions)
+void subdivide_triangles(std::vector<std::unique_ptr<Triangle>>& triangles, int const subdivisions)
 {
 	// Track function duration
 	std::chrono::high_resolution_clock::time_point t1 = std::chrono::high_resolution_clock::now();
 
-	cout << "Subdividing triangles " << subdivisions << " times." << '\n';
-	vector < unique_ptr<Triangle>> new_triangles;
+	std::cout << "Subdividing triangles " << subdivisions << " times." << '\n';
+	std::vector < std::unique_ptr<Triangle>> new_triangles;
 	for (auto i = 0; i < subdivisions; ++i)
 	{
-		cout << "Subdivision " << i+1 << "... (operating on " << triangles.size() << " triangles)" << '\n';
-		map<size_t, shared_ptr<Point>> known_subdivision_points;
+		std::cout << "Subdivision " << i+1 << "... (operating on " << triangles.size() << " triangles)" << '\n';
+		std::map<std::size_t, std::shared_ptr<Point>> known_subdivision_points;
 		for (auto const& next_triangle : triangles)
 		{
 			subdivide_triangle_into_four(*next_triangle, new_triangles, known_subdivision_points);
@@ -92,41 +92,41 @@ void subdivide_triangles(vector<unique_ptr<Triangle>>& triangles, int const subd
 		std::swap(triangles, new_triangles);
 		new_triangles.clear();
 	}
-	cout << "After subdivision total triangles: " << triangles.size() << '\n';
+	std::cout << "After subdivision total triangles: " << triangles.size() << '\n';
 
 	// Print function duration
 	std::chrono::high_resolution_clock::time_point t2 = std::chrono::high_resolution_clock::now();
 	auto duration_s = std::chrono::duration_cast<std::chrono::seconds>(t2 - t1).count();
 	auto duration_ms = std::chrono::duration_cast<std::chrono::milliseconds>(t2 - t1).count();
-	cout << "Subdivision took: " << duration_s << "s (or " << duration_ms << "ms)\n";
+	std::cout << "Subdivision took: " << duration_s << "s (or " << duration_ms << "ms)\n";
 }
 
-void print_triangles(vector<unique_ptr<Triangle>> const & triangles)
+void print_triangles(std::vector<std::unique_ptr<Triangle>> const & triangles)
 {
-	cout << "Printing triangles... \nTotal triangles: " << std::to_string(triangles.size()) << '\n';
+	std::cout << "Printing triangles... \nTotal triangles: " << std::to_string(triangles.size()) << '\n';
 	for (auto const& next_triangle : triangles)
 	{
 		next_triangle->print();
 	}
-	cout << "End of triangles";
+	std::cout << "End of triangles";
 }
 
-void create_octahedron_triangles(vector<unique_ptr<Triangle>>& triangles) {
-	shared_ptr<Point> p1 = make_shared<Point>(0.0f, 1.0f, 0.0f);
-	shared_ptr<Point> p2 = make_shared<Point>(-1.0f, 0.0f, 0.0f);
-	shared_ptr<Point> p3 = make_shared<Point>(0.0f, 0.0f, 1.0f);
-	shared_ptr<Point> p4 = make_shared<Point>(1.0f, 0.0f, 0.0f);
-	shared_ptr<Point> p5 = make_shared<Point>(0.0f, 0.0f, -1.0f);
-	shared_ptr<Point> p6 = make_shared<Point>(0.0f, -1.0f, 0.0f);
+void create_octahedron_triangles(std::vector<std::unique_ptr<Triangle>>& triangles) {
+	std::shared_ptr<Point> p1 = std::make_shared<Point>(0.0f, 1.0f, 0.0f);
+	std::shared_ptr<Point> p2 = std::make_shared<Point>(-1.0f, 0.0f, 0.0f);
+	std::shared_ptr<Point> p3 = std::make_shared<Point>(0.0f, 0.0f, 1.0f);
+	std::shared_ptr<Point> p4 = std::make_shared<Point>(1.0f, 0.0f, 0.0f);
+	std::shared_ptr<Point> p5 = std::make_shared<Point>(0.0f, 0.0f, -1.0f);
+	std::shared_ptr<Point> p6 = std::make_shared<Point>(0.0f, -1.0f, 0.0f);
 
-	triangles.push_back(make_unique<Triangle>(p1, p2, p3));
-	triangles.push_back(make_unique<Triangle>(p1, p3, p4));
-	triangles.push_back(make_unique<Triangle>(p1, p4, p5));
-	triangles.push_back(make_unique<Triangle>(p1, p5, p2));
-	triangles.push_back(make_unique<Triangle>(p2, p5, p6));
-	triangles.push_back(make_unique<Triangle>(p5, p4, p6));
-	triangles.push_back(make_unique<Triangle>(p4, p3, p6));
-	triangles.push_back(make_unique<Triangle>(p3, p2, p6));
+	triangles.push_back(std::make_unique<Triangle>(p1, p2, p3));
+	triangles.push_back(std::make_unique<Triangle>(p1, p3, p4));
+	triangles.push_back(std::make_unique<Triangle>(p1, p4, p5));
+	triangles.push_back(std::make_unique<Triangle>(p1, p5, p2));
+	triangles.push_back(std::make_unique<Triangle>(p2, p5, p6));
+	triangles.push_back(std::make_unique<Triangle>(p5, p4, p6));
+	triangles.push_back(std::make_unique<Triangle>(p4, p3, p6));
+	triangles.push_back(std::make_unique<Triangle>(p3, p2, p6));
 }
 
 constexpr float radians_to_degrees(float r) {

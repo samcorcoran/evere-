@@ -6,17 +6,15 @@
 #include <string>
 #include "Point.h"
 
-using namespace std;
-
 class Triangle
 {
 public:
 	int id;
-	shared_ptr<Point> p1;
-	shared_ptr<Point> p2;
-	shared_ptr<Point> p3;
+	std::shared_ptr<Point> p1;
+	std::shared_ptr<Point> p2;
+	std::shared_ptr<Point> p3;
 
-	Triangle(shared_ptr<Point> p1, shared_ptr<Point>p2, shared_ptr<Point>p3);
+	Triangle(std::shared_ptr<Point> p1, std::shared_ptr<Point>p2, std::shared_ptr<Point>p3);
 
 	void print();
 private:
