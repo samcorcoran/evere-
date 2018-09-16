@@ -9,8 +9,8 @@ using namespace std;
 size_t Point::point_counter = 1;
 
 Point::Point(float const x, float const y, float const z) : x(x), y(y), z(z), id(point_counter) {
-
-	increment_counter();
+	// Assume point is on unit sphere surface
+	initialize_point();
 }
 
 Point::Point(Point const & p1, Point const & p2, float const t) {
@@ -18,7 +18,12 @@ Point::Point(Point const & p1, Point const & p2, float const t) {
 	y = p1.y + (p2.y - p1.y) * t;
 	z = p1.z + (p2.z - p1.z) * t;
 	normalize();
+	initialize_point();
+}
+
+void Point::initialize_point() {
 	increment_counter();
+	calculate_geographic_location();
 }
 
 string Point::to_string() {
@@ -43,10 +48,10 @@ void Point::normalize() {
 	z *= mag;
 }
 
-void Point::set_geographic_location()
+void Point::calculate_geographic_location()
 {
 	// Assume cartesian coordinates are already normalized
-	auto latitude = 90.0 - GeometryUtils::radians_to_degrees(acos(z));
-	auto longitude = GeometryUtils::radians_to_degrees(atan2(y, x));
-	geographicLocation = { (float)latitude, (float)longitude };
+	auto latitude = 90.0 - GeometryUtils::degrees(acos(z));
+	auto longitude = GeometryUtils::degrees(atan2(y, x));
+	geographic_location = { (float)latitude, (float)longitude };
 }

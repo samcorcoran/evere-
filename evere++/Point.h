@@ -17,13 +17,15 @@ public:
 
 	std::string to_string();
 
-private:
 	int id;
 	float x;
 	float y;
 	float z;
 
-	GeographicLocation geographicLocation;
+	GeographicLocation geographic_location;
+
+private:
+	void initialize_point();
 
 	void increment_counter();
 
@@ -31,7 +33,7 @@ private:
 
 	void normalize();
 
-	void set_geographic_location();
+	void calculate_geographic_location();
 
 	static std::size_t point_counter;
 
