@@ -36,6 +36,12 @@
     <ClCompile Include="GeometryUtils.cpp">
       <Filter>Source Files\Geometry</Filter>
     </ClCompile>
+    <ClCompile Include="World.cpp">
+      <Filter>Source Files\WorldGraph</Filter>
+    </ClCompile>
+    <ClCompile Include="SpatialCell.cpp">
+      <Filter>Source Files\WorldGraph</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Hasher.h">
@@ -52,6 +58,12 @@
     </ClInclude>
     <ClInclude Include="GeometryUtils.h">
       <Filter>Source Files\Geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="World.h">
+      <Filter>Source Files\WorldGraph</Filter>
+    </ClInclude>
+    <ClInclude Include="SpatialCell.h">
+      <Filter>Source Files\WorldGraph</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -1,9 +1,7 @@
 #include <iostream>
-#include <vector>
-#include <memory>
-#include <map>
-#include "Triangle.h"
-#include "GeometryUtils.h"
+#include <string>
+
+#include "World.h"
 
 using namespace std;
 
@@ -16,11 +14,8 @@ int main(int argc, char* argv[])
 	{
 		subdivisions = std::stoi(argv[1]);
 	}
-	vector<unique_ptr<Triangle>> triangles;
-	GeometryUtils::create_octahedron_triangles(triangles);
-	GeometryUtils::subdivide_triangles(triangles, subdivisions);
-	cout << "End of main, total triangles: " << triangles.size();
-	//print_triangles(triangles);
+
+	auto world = make_unique<World>(subdivisions);
 
 	return 0;
 }

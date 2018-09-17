@@ -117,16 +117,20 @@
   <ItemGroup>
     <ClCompile Include="GeometryUtils.cpp" />
     <ClCompile Include="Point.cpp" />
+    <ClCompile Include="SpatialCell.cpp" />
     <ClCompile Include="SpatialNode.cpp" />
     <ClCompile Include="Triangle.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="World.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Point.h" />
+    <ClInclude Include="SpatialCell.h" />
     <ClInclude Include="SpatialNode.h" />
     <ClInclude Include="Triangle.h" />
     <ClInclude Include="Hasher.h" />
     <ClInclude Include="GeometryUtils.h" />
+    <ClInclude Include="World.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
