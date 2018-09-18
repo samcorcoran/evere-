@@ -22,6 +22,8 @@ public:
 
 	void sort_perimeter_by_bearing();
 	void sort_neighbours_by_bearing();
+
+	void sort_and_connect_perimeter_nodes();
 private:
 };
 

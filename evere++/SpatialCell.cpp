@@ -55,3 +55,24 @@ void SpatialCell::sort_neighbours_by_bearing() {
 		neighbours.emplace(p.first);
 	}
 }
+
+void SpatialCell::sort_and_connect_perimeter_nodes()
+{
+	// Sort nodes into ring
+	sort_perimeter_by_bearing();
+	// Early return for single node "ring"
+	if (perimeter.size() <= 1) {
+		return;
+	}
+	// Connect consecutive nodes in ring
+	for (auto it = perimeter.begin(); it != perimeter.end(); ++it) {
+		if (next(it) != perimeter.end()) {
+			// Add bi-directional connection
+			(*it)->add_connected_node(*next(it));
+			(*next(it))->add_connected_node((*it));
+		}
+	}
+	// Connect first and last in ring
+	(*perimeter.begin())->add_connected_node(*perimeter.end());
+	(*perimeter.end())->add_connected_node(*perimeter.begin());
+}
