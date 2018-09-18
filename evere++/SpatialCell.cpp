@@ -40,7 +40,7 @@ void SpatialCell::sort_perimeter_by_bearing() {
 
 void SpatialCell::sort_neighbours_by_bearing() {
 	// Calculate bearings to each neighbouring cell
-	vector<pair<shared_ptr<SpatialCell>, float>> neighbour_bearings(perimeter.size());
+	vector<pair<shared_ptr<SpatialCell>, float>> neighbour_bearings(neighbours.size());
 	for (auto& cell : neighbours) {
 		neighbour_bearings.emplace_back(make_pair(cell,
 			GeometryUtils::initial_bearing(*centre, *cell->centre)));
@@ -54,5 +54,4 @@ void SpatialCell::sort_neighbours_by_bearing() {
 	for (auto& p : neighbour_bearings) {
 		neighbours.emplace(p.first);
 	}
-
 }
