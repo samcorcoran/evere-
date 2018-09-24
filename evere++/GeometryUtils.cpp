@@ -142,10 +142,10 @@ float GeometryUtils::radians(float const degrees) {
 }
 
 float GeometryUtils::initial_bearing(Point const & p1, Point const & p2) {
-	auto lat1 = radians(p1.geographic_location.latitude);
-	auto lat2 = radians(p2.geographic_location.latitude);
+	auto lat1 = radians(p1.geographic_location->latitude);
+	auto lat2 = radians(p2.geographic_location->latitude);
 
-	auto diff_longitude = radians(p2.geographic_location.longitude - p1.geographic_location.longitude);
+	auto diff_longitude = radians(p2.geographic_location->longitude - p1.geographic_location->longitude);
 
 	auto x = sin(diff_longitude) * cos(lat2);
 	auto y = cos(lat1) * sin(lat2) - (sin(lat1) * cos(lat2) * cos(diff_longitude));

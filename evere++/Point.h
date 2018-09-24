@@ -6,6 +6,9 @@
 struct GeographicLocation {
 	float longitude;
 	float latitude;
+
+	GeographicLocation(float longitude, float latitude) : longitude{ longitude }, latitude{ latitude } {
+	}
 };
 
 class Point
@@ -22,7 +25,7 @@ public:
 	float y;
 	float z;
 
-	GeographicLocation geographic_location;
+	std::unique_ptr<GeographicLocation> geographic_location;
 
 private:
 	void initialize_point();

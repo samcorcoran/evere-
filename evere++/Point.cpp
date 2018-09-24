@@ -53,5 +53,5 @@ void Point::calculate_geographic_location()
 	// Assume cartesian coordinates are already normalized
 	auto latitude = 90.0 - GeometryUtils::degrees(acos(z));
 	auto longitude = GeometryUtils::degrees(atan2(y, x));
-	geographic_location = { (float)latitude, (float)longitude };
+	geographic_location = make_unique<GeographicLocation>( (float)latitude, (float)longitude );
 }
