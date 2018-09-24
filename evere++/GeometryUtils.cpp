@@ -57,7 +57,7 @@ void GeometryUtils::subdivide_triangle_into_four(Triangle const &  triangle, vec
 	}
 
 	shared_ptr<Point> p6;
-	size_t p6_hash = get_t_point_hash(triangle.p1.get(), triangle.p3.get(), 0.5f);
+	size_t p6_hash = get_t_point_hash(triangle.p2.get(), triangle.p3.get(), 0.5f);
 	it = known_subdivision_points.find(p6_hash);
 	if (it != known_subdivision_points.end())
 	{
