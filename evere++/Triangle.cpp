@@ -17,7 +17,7 @@ Triangle::Triangle(shared_ptr<Point> p1, shared_ptr<Point>p2, shared_ptr<Point>p
 }
 
 void Triangle::print() {
-	cout << p1->to_string() + p2->to_string() + p3->to_string() << '\n';
+	cout << p1->to_string() << "\t" << p2->to_string() << "\t" << p3->to_string() << '\n';
 }
 
 std::shared_ptr<Point> Triangle::create_centre_point() const {
