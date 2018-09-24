@@ -13,7 +13,7 @@ Point::Point(float const x, float const y, float const z) : x(x), y(y), z(z), id
 	initialize_point();
 }
 
-Point::Point(Point const & p1, Point const & p2, float const t) {
+Point::Point(Point const & p1, Point const & p2, float const t) : id(point_counter) {
 	x = p1.x + (p2.x - p1.x) * t;
 	y = p1.y + (p2.y - p1.y) * t;
 	z = p1.z + (p2.z - p1.z) * t;
