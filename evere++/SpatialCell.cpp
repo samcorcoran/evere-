@@ -73,6 +73,8 @@ void SpatialCell::sort_and_connect_perimeter_nodes()
 		}
 	}
 	// Connect first and last in ring
-	(*perimeter.begin())->add_connected_node(*perimeter.end());
-	(*perimeter.end())->add_connected_node(*perimeter.begin());
+	shared_ptr<SpatialNode> last_node = *perimeter.rbegin();
+	shared_ptr<SpatialNode> first_node = *perimeter.begin();
+	first_node->add_connected_node(last_node);
+	last_node->add_connected_node(first_node);
 }
