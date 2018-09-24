@@ -27,7 +27,7 @@ World::World(int const subdivisions) {
 
 void World::construct_nodes(vector<unique_ptr<Triangle>> const & triangles) {
 	map<shared_ptr<Point>, shared_ptr<SpatialCell>> known_cells;
-	map<const Triangle* const, shared_ptr<SpatialNode>> known_nodes;
+	set<shared_ptr<SpatialNode>> known_nodes;
 	for (auto& t : triangles) {
 		// Each triangle-point represents a cell centre
 		shared_ptr<SpatialCell> cell_one = retrieve_or_create_cell(known_cells, t->p1);
@@ -35,7 +35,8 @@ void World::construct_nodes(vector<unique_ptr<Triangle>> const & triangles) {
 		shared_ptr<SpatialCell> cell_three = retrieve_or_create_cell(known_cells, t->p3);
 
 		// Each triangle-centre is a boundary point
-		shared_ptr<SpatialNode> node = retrieve_or_create_node(known_nodes, t.get());
+		shared_ptr<SpatialNode> node = make_shared<SpatialNode>(t->create_centre_point());
+		known_nodes.emplace(node);
 
 		// Cells must know about this perimeter node
 		cell_one->add_perimeter_node(node);
@@ -66,8 +67,8 @@ void World::construct_nodes(vector<unique_ptr<Triangle>> const & triangles) {
 
 	// All nodes have full set of connected_nodes now, so sort
 	for (auto& node : known_nodes) {
-		node.second->sort_connected_nodes_by_bearing();
-		node.second->sort_surrounding_cells_by_bearing();
+		node->sort_connected_nodes_by_bearing();
+		node->sort_surrounding_cells_by_bearing();
 	}
 
 	// TODO: Calculate and store neighbour node/cell distances and/or proportions during above process
@@ -84,17 +85,5 @@ shared_ptr<SpatialCell> World::retrieve_or_create_cell(map<shared_ptr<Point>, sh
 	}
 	else {
 		return shared_ptr<SpatialCell>{ it->second };
-	}
-};
-
-shared_ptr<SpatialNode> World::retrieve_or_create_node(map<const Triangle* const, shared_ptr<SpatialNode>>& known_nodes, const Triangle* const  t) {
-	auto it = known_nodes.find(t);
-	if (it == known_nodes.end()) {
-		// Node doesn't already exist
-		known_nodes[t] = make_shared<SpatialNode>(t->create_centre_point());
-		return known_nodes[t];
-	}
-	else {
-		return shared_ptr<SpatialNode>{ it->second };
 	}
 };
