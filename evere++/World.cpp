@@ -26,13 +26,9 @@ World::World(int const subdivisions) {
 };
 
 void World::construct_nodes(vector<unique_ptr<Triangle>> const & triangles) {
-
-	map<Point const * const, SpatialCell * const> known_cells;
-	map<Triangle const * const, SpatialNode * const> known_nodes;
-
+	map<shared_ptr<Point>, shared_ptr<SpatialCell>> known_cells;
+	map<const Triangle* const, shared_ptr<SpatialNode>> known_nodes;
 	for (auto& t : triangles) {
-		// TODO: Finish nodegraph creation
-
 		// Each triangle-point represents a cell centre
 		shared_ptr<SpatialCell> cell_one = retrieve_or_create_cell(known_cells, t->p1);
 		shared_ptr<SpatialCell> cell_two = retrieve_or_create_cell(known_cells, t->p2);
@@ -75,24 +71,28 @@ void World::construct_nodes(vector<unique_ptr<Triangle>> const & triangles) {
 	}
 
 	// TODO: Calculate and store neighbour node/cell distances and/or proportions during above process
+
+	cout << "Total cells: " << known_cells.size() << endl;
 };
 
-shared_ptr<SpatialCell> World::retrieve_or_create_cell(map<Point const * const, SpatialCell * const>& known_cells, shared_ptr<Point> p) {
-	auto it = known_cells.find(p.get());
+shared_ptr<SpatialCell> World::retrieve_or_create_cell(map<shared_ptr<Point>, shared_ptr<SpatialCell>>& known_cells, shared_ptr<Point> p) {
+	auto it = known_cells.find(p);
 	if (it == known_cells.end()) {
 		// Cell doesn't already exist
-		return make_shared<SpatialCell>(p);
+		known_cells[p] = make_shared<SpatialCell>(p);
+		return known_cells[p];
 	}
 	else {
 		return shared_ptr<SpatialCell>{ it->second };
 	}
 };
 
-shared_ptr<SpatialNode> World::retrieve_or_create_node(map<Triangle const * const, SpatialNode * const>& known_nodes, Triangle const * const t) {
+shared_ptr<SpatialNode> World::retrieve_or_create_node(map<const Triangle* const, shared_ptr<SpatialNode>>& known_nodes, const Triangle* const  t) {
 	auto it = known_nodes.find(t);
 	if (it == known_nodes.end()) {
 		// Node doesn't already exist
-		return make_shared<SpatialNode>(t->create_centre_point());
+		known_nodes[t] = make_shared<SpatialNode>(t->create_centre_point());
+		return known_nodes[t];
 	}
 	else {
 		return shared_ptr<SpatialNode>{ it->second };
