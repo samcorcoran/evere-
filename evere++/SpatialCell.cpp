@@ -22,7 +22,7 @@ void SpatialCell::add_neighbour_cell(std::shared_ptr<SpatialCell> c) {
 
 void SpatialCell::sort_perimeter_by_bearing() {
 	// Calculate bearings to each perimeter node
-	vector<pair<shared_ptr<SpatialNode>,float>> perimeter_bearings(perimeter.size());
+	auto perimeter_bearings = vector<pair<shared_ptr<SpatialNode>, float>>();
 	for (auto& node : perimeter) {
 		perimeter_bearings.emplace_back(make_pair(node,
 								GeometryUtils::initial_bearing(*centre, *node->location)));

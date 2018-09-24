@@ -90,7 +90,7 @@ void GeometryUtils::subdivide_triangles(vector<unique_ptr<Triangle>>& triangles,
 	{
 		cout << "Subdivision " << i + 1 << "... (operating on " << triangles.size() << " triangles)" << '\n';
 		map<size_t, shared_ptr<Point>> known_subdivision_points;
-		for (auto const& next_triangle : triangles)
+		for (auto const & next_triangle : triangles)
 		{
 			subdivide_triangle_into_four(*next_triangle, new_triangles, known_subdivision_points);
 		}
