@@ -25,6 +25,8 @@ namespace GeometryUtils {
 	float radians(float const degrees);
 
 	float initial_bearing(Point const & p1, Point const & p2);
+
+	float total_unique_triangle_points(std::vector<std::unique_ptr<Triangle>> const & triangles);
 }
 
 #endif

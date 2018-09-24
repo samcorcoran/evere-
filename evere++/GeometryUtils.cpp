@@ -5,6 +5,7 @@
 #include <memory>
 #include <vector>
 #include <math.h> /* fmod */
+#include <set>
 
 #include "Point.h"
 #include "Triangle.h"
@@ -155,4 +156,15 @@ float GeometryUtils::initial_bearing(Point const & p1, Point const & p2) {
 	// math.atan2 returns -pi to +pi radians, must convert to compass bearing
 	initial_bearing = degrees(initial_bearing);
 	return fmod((initial_bearing + 360), 360.0);
+}
+
+float GeometryUtils::total_unique_triangle_points(vector<unique_ptr<Triangle>> const & triangles) {
+	set<Point*> all_triangle_points;
+	for (auto& t : triangles) {
+		all_triangle_points.emplace(t->p1.get());
+		all_triangle_points.emplace(t->p2.get());
+		all_triangle_points.emplace(t->p3.get());
+	}
+	//cout << "Total unique triangle corner points: " << all_triangle_points.size() << endl;
+	return all_triangle_points.size();
 }
