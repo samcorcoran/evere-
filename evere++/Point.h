@@ -14,9 +14,9 @@ struct GeographicLocation {
 class Point
 {
 public:
-	Point(float const x, float const y, float const z);
+	Point(const float x, const float y, const float z);
 
-	Point(Point const & p1, Point const & p2, float const t);
+	Point(const Point& p1, const Point& p2, const float t);
 
 	std::string to_string();
 

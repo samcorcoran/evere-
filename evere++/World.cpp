@@ -9,7 +9,7 @@
 
 using namespace std;
 
-World::World(int const subdivisions) {
+World::World(const int subdivisions) {
 	vector<unique_ptr<Triangle>> triangles;
 	GeometryUtils::create_octahedron_triangles(triangles);
 	GeometryUtils::subdivide_triangles(triangles, subdivisions);
@@ -25,7 +25,7 @@ World::World(int const subdivisions) {
 	cout << "Nodegraph construction took: " << duration_s << "s (or " << duration_ms << "ms)\n";
 };
 
-void World::construct_nodes(vector<unique_ptr<Triangle>> const & triangles) {
+void World::construct_nodes(const vector<unique_ptr<Triangle>>& triangles) {
 	map<shared_ptr<Point>, shared_ptr<SpatialCell>> known_cells;
 	set<shared_ptr<SpatialNode>> known_nodes;
 	for (auto& t : triangles) {

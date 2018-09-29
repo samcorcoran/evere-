@@ -10,10 +10,10 @@
 
 class World {
 public:
-	World(int const subdivisions);
+	World(const int subdivisions);
 	std::vector<std::unique_ptr<SpatialNode>> nodes;
 private:
-	void construct_nodes(std::vector<std::unique_ptr<Triangle>> const & triangles);
+	void construct_nodes(const std::vector<std::unique_ptr<Triangle>>& triangles);
 
 	std::shared_ptr<SpatialCell> retrieve_or_create_cell(std::map<std::shared_ptr<Point>, std::shared_ptr<SpatialCell>>& known_cells, std::shared_ptr<Point> p);
 };

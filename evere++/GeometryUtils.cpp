@@ -13,7 +13,7 @@
 
 using namespace std;
 
-size_t GeometryUtils::get_t_point_hash(Point const * const p1, Point const * const p2, float const t)
+size_t GeometryUtils::get_t_point_hash(const Point* const p1, const Point* const p2, const float t)
 {
 	size_t seed = 0;
 	hash_combine(seed, p1);
@@ -23,7 +23,7 @@ size_t GeometryUtils::get_t_point_hash(Point const * const p1, Point const * con
 	return seed;
 }
 
-void GeometryUtils::subdivide_triangle_into_four(Triangle const &  triangle, vector<unique_ptr<Triangle>>& new_triangles, map<size_t, shared_ptr<Point>> &known_subdivision_points)
+void GeometryUtils::subdivide_triangle_into_four(const Triangle&  triangle, vector<unique_ptr<Triangle>>& new_triangles, map<size_t, shared_ptr<Point>> &known_subdivision_points)
 {
 	shared_ptr<Point> p4;
 	size_t p4_hash = get_t_point_hash(triangle.p1.get(), triangle.p2.get(), 0.5f);
@@ -79,7 +79,7 @@ void GeometryUtils::subdivide_triangle_into_four(Triangle const &  triangle, vec
 	new_triangles.push_back(make_unique<Triangle>(p4, triangle.p2, p6));
 }
 
-void GeometryUtils::subdivide_triangles(vector<unique_ptr<Triangle>>& triangles, int const subdivisions)
+void GeometryUtils::subdivide_triangles(vector<unique_ptr<Triangle>>& triangles, const int subdivisions)
 {
 	// Track function duration
 	chrono::high_resolution_clock::time_point t1 = chrono::high_resolution_clock::now();
@@ -90,7 +90,7 @@ void GeometryUtils::subdivide_triangles(vector<unique_ptr<Triangle>>& triangles,
 	{
 		cout << "Subdivision " << i + 1 << "... (operating on " << triangles.size() << " triangles)" << '\n';
 		map<size_t, shared_ptr<Point>> known_subdivision_points;
-		for (auto const & next_triangle : triangles)
+		for (const auto& next_triangle : triangles)
 		{
 			subdivide_triangle_into_four(*next_triangle, new_triangles, known_subdivision_points);
 		}
@@ -106,10 +106,10 @@ void GeometryUtils::subdivide_triangles(vector<unique_ptr<Triangle>>& triangles,
 	cout << "Subdivision took: " << duration_s << "s (or " << duration_ms << "ms)\n";
 }
 
-void GeometryUtils::print_triangles(vector<unique_ptr<Triangle>> const & triangles)
+void GeometryUtils::print_triangles(const vector<unique_ptr<Triangle>>& triangles)
 {
 	cout << "Printing triangles... \nTotal triangles: " << to_string(triangles.size()) << '\n';
-	for (auto const& next_triangle : triangles)
+	for (const auto& next_triangle : triangles)
 	{
 		next_triangle->print();
 	}
@@ -134,15 +134,15 @@ void GeometryUtils::create_octahedron_triangles(vector<unique_ptr<Triangle>>& tr
 	triangles.push_back(make_unique<Triangle>(p3, p2, p6));
 }
 
-float GeometryUtils::degrees(float const radians) {
+float GeometryUtils::degrees(const float radians) {
 	return radians * (180.0 / 3.141592653589793238463);
 }
 
-float GeometryUtils::radians(float const degrees) {
+float GeometryUtils::radians(const float degrees) {
 	return degrees * 3.141592653589793238463 / 180.0;
 }
 
-float GeometryUtils::initial_bearing(Point const & p1, Point const & p2) {
+float GeometryUtils::initial_bearing(const Point& p1, const Point& p2) {
 	auto lat1 = radians(p1.geographic_location->latitude);
 	auto lat2 = radians(p2.geographic_location->latitude);
 
@@ -158,7 +158,7 @@ float GeometryUtils::initial_bearing(Point const & p1, Point const & p2) {
 	return fmod((initial_bearing + 360), 360.0);
 }
 
-float GeometryUtils::total_unique_triangle_points(vector<unique_ptr<Triangle>> const & triangles) {
+float GeometryUtils::total_unique_triangle_points(const vector<unique_ptr<Triangle>>& triangles) {
 	set<Point*> all_triangle_points;
 	for (auto& t : triangles) {
 		all_triangle_points.emplace(t->p1.get());

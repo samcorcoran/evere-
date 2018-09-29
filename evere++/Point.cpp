@@ -8,12 +8,12 @@ using namespace std;
 
 size_t Point::point_counter = 1;
 
-Point::Point(float const x, float const y, float const z) : x(x), y(y), z(z), id(point_counter) {
+Point::Point(const float x, const float y, const float z) : x(x), y(y), z(z), id(point_counter) {
 	// Assume point is on unit sphere surface
 	initialize_point();
 }
 
-Point::Point(Point const & p1, Point const & p2, float const t) : id(point_counter) {
+Point::Point(const Point& p1, const Point& p2, const float t) : id(point_counter) {
 	x = p1.x + (p2.x - p1.x) * t;
 	y = p1.y + (p2.y - p1.y) * t;
 	z = p1.z + (p2.z - p1.z) * t;
