@@ -10,6 +10,7 @@
 using namespace std;
 
 World::World(const int subdivisions) {
+	// Create triangular mesh
 	vector<unique_ptr<Triangle>> triangles;
 	GeometryUtils::create_octahedron_triangles(triangles);
 	GeometryUtils::subdivide_triangles(triangles, subdivisions);
@@ -17,6 +18,7 @@ World::World(const int subdivisions) {
 
 	//GeometryUtils::print_triangles(triangles);
 
+	// Time the creation of world nodes using triangles
 	chrono::high_resolution_clock::time_point t1 = chrono::high_resolution_clock::now();
 	construct_nodes(triangles);
 	chrono::high_resolution_clock::time_point t2 = chrono::high_resolution_clock::now();
